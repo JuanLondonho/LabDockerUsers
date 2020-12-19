@@ -87,22 +87,23 @@ app.get('/users', function (req, res) {
 *       parameters:
 *           - name: id
 *             in: path
-*             description: id of our user
+*             description: id for update user
 *             required: true
 *           - name: user
 *             in: body
 *             type: object
+*             required: true
 *       responses:
 *           '201':
 *               description: A successful response
 *           '500':
 *               description: Internal Error
 */
-app.put('/users/:id', function (req, res) {
+app.put('/users/:id', async function (req, res) {
     var userId = req.params.id;
     try{
         var userUpdate = req.body;
-        var user = User.findByIdAndUpdate(userId, userUpdate, {new:true});
+        var user = await User.findByIdAndUpdate(userId, userUpdate);
         return res.status(201).json(user);
     }catch{
         return res.status(500)
@@ -126,6 +127,7 @@ app.put('/users/:id', function (req, res) {
  *          '500':
  *              description: Internal Error
  */
+//{"name": "Juan", "nit": "123", "email":"juan@gmail.com", "country":"Colombia", "phoneNumber":"321"}
 app.post('/users', function (req, res) {
     var newUser = req.body;
     try {
